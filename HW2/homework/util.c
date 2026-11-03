@@ -24,6 +24,7 @@
 #include "./util.h"
 
 
+// I wouldn't inline this. printf might be expensive
 void mem_alloc(data_t** space, int size) {
   *space = (data_t*) malloc(sizeof(data_t) * size);
   if (*space == NULL) {
@@ -31,7 +32,7 @@ void mem_alloc(data_t** space, int size) {
   }
 }
 
-void mem_free(data_t** space) {
+inline void mem_free(data_t** space) {
   free(*space);
   *space = 0;
 }

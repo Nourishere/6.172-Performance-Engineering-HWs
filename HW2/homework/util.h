@@ -10,6 +10,7 @@
 #include <assert.h>
 
 typedef uint32_t data_t;
+#define THRESHOLD 64 // For recursion coarsening
 
 void mem_alloc(data_t** space, int size);
 void mem_free(data_t** space);
