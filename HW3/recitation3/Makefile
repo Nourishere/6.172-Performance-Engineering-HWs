@@ -3,7 +3,7 @@ CC := clang
 TARGETS = example1 example2 example3 example4
 
 OTHER_CFLAGS ?=
-CFLAGS := -Wall -g -std=gnu99
+CFLAGS := -Wall -std=gnu99 -ffreestanding
 
 ifeq ($(DEBUG),1)
   CFLAGS += -O0
@@ -15,7 +15,7 @@ V ?= 1
 
 ifeq ($(VECTORIZE),1)
   #CFLAGS += -ftree-vectorizer-verbose=$(V)
-  CFLAGS += -Rpass=loop-vectorize -Rpass-missed=loop-vectorize 
+  CFLAGS += -Rpass=loop-vectorize -Rpass-missed=loop-vectorize
 else
   CFLAGS += -fno-vectorize
 endif
@@ -50,5 +50,5 @@ all: $(TARGETS:=.o)
 	$(CC) $(CFLAGS) -Wa,-aslh -c $< > $@
 
 clean::
-	rm -rf 
+	rm -rf
 	rm -f *.o *.s .cflags perf.data *.lst
