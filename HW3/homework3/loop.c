@@ -27,7 +27,6 @@
 
 // N is small enough so that 3 arrays of size N fit into the AWS machine
 // level 1 caches (which are 32 KB each, as seen by running `lscpu`)
-#define N          1024
 
 // Run for multiple experiments to reduce measurement error on gettime().
 #define I          100000
@@ -47,6 +46,9 @@
 #define _stringify(V) #V
 
 int main(int argc, char *argv[]) {
+    int N = atoi(argv[1]);
+    if (N == 0)
+	    return 1;
     __TYPE__ A[N];
     __TYPE__ B[N];
     __TYPE__ C[N];
@@ -66,11 +68,10 @@ int main(int argc, char *argv[]) {
 
     fasttime_t time1 = gettime();
 
-    for (i = 0; i < I; i++) {
-        for (j = 0; j < N; j++) {
-            C[j] = A[j] __OP__ B[j];
-        }
-    }
+//#pragma clang loop vectorize(enable)
+	for (j = 0; j < N; j++) {
+		total += A[j];
+	}
 
     fasttime_t time2 = gettime();
 

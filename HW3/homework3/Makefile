@@ -1,7 +1,9 @@
 CC := clang
 
 EXTRA_CFLAGS ?=
-CFLAGS := -Wall -std=gnu99 -g
+CFLAGS := -Wall -std=gnu99
+__OP__:=-
+__TYPE__:=uint32_t
 
 ifeq ($(DEBUG),1)
   CFLAGS += -O0
@@ -10,7 +12,7 @@ else
 endif
 
 ifeq ($(VECTORIZE),1)
-  CFLAGS += -Rpass=loop-vectorize -Rpass-missed=loop-vectorize -ffast-math
+  CFLAGS += -Rpass=loop-vectorize -Rpass-missed=loop-vectorize -ffast-math -D__OP__=$(__OP__) -D__TYPE__=$(__TYPE__)
 else
   CFLAGS += -fno-vectorize
 endif
